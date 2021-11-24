@@ -3,12 +3,8 @@ package A_normal_day;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class Part {
-    public Part() {}
 
     public static void main(String[] args) {
         new Part().solution();
