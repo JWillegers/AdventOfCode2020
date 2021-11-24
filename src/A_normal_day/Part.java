@@ -11,7 +11,7 @@ public class Part {
         String[] array = new String[nOfLines];
 
         try {
-            reader = new BufferedReader(new FileReader("src/Day5/input.txt"));
+            reader = new BufferedReader(new FileReader("src/Day0/input.txt")); //TODO change filepath
             for (int i = 0; i < nOfLines; i++) {
                 array[i] = reader.readLine();
             }
