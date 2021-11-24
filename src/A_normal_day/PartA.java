@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Part {
+public class PartA {
     private int nOfLines = 10;
     private BufferedReader reader;
     private String[] array = new String[nOfLines];
 
     public static void main(String[] args) {
-        Part part = new Part();
+        PartA part = new PartA();
         part.setup();
         part.solution();
     }
