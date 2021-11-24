@@ -5,16 +5,17 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Part {
+    private int nOfLines = 10;
+    private BufferedReader reader;
+    private String[] array = new String[nOfLines];
 
     public static void main(String[] args) {
-        new Part().solution();
+        Part part = new Part();
+        part.setup();
+        part.solution();
     }
 
-    public void solution() {
-        int nOfLines = 10;
-        BufferedReader reader;
-        String[] array = new String[nOfLines];
-
+    public void setup() {
         try {
             reader = new BufferedReader(new FileReader("src/Day/input.txt")); //TODO change filepath
             for (int i = 0; i < nOfLines; i++) {
@@ -25,7 +26,9 @@ public class Part {
             e.printStackTrace();
             System.exit(1);
         }
+    }
 
+    public void solution() {
         for (int i = 0; i < nOfLines; i++) {
 
         }
