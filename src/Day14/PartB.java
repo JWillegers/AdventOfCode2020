@@ -30,28 +30,7 @@ public class PartB {
     }
 
     public void solution() {
-
-        int highest = 0;
-        for (int i = 0; i < nOfLines; i++) {
-            try {
-                int number = Integer.parseInt(array[i].split("]")[0].substring(4));
-                if (number > highest) {
-                    highest = number;
-                }
-                if (number < 0) {
-                    System.out.println("OVERFLOW");
-                    System.exit(1);
-                }
-            } catch (NumberFormatException e) {
-                continue;
-            }
-        }
-
-        if (highest == 0) {
-            System.exit(1);
-        }
-
-        long[] memory = new long[highest + 1];
+        List<Long> memory = new ArrayList<>();
         String mask = null;
 
         for (int i = 0; i < nOfLines; i++) {
@@ -81,20 +60,24 @@ public class PartB {
                     for (int j = 0; j < 36; j++) {
                         char maskChar = mask.charAt(35 - j);
                         if (maskChar == 'X') {
-                            if (oldList.size() > 0) {
-                                for (Long number : oldList) {
-                                    newList.add((long) Math.pow(2, j) + number);
-                                }
-                            } else {
+                            if (oldList.size() == 0) {
                                 newList.add((long) Math.pow(2, j));
                                 newList.add((long) 0);
+                            } else {
+                                for (int k = 0; k < oldList.size(); k++) {
+                                    newList.add((long) Math.pow(2, j) + oldList.get(k));
+                                }
                             }
                             oldList = newList;
                         }
                     }
 
+                    for (int j = 0; j < newList.size(); j++) {
+                        memory.add(memorySlot, value);
+                    }
 
-                    memory[memorySlot] = value;
+
+
                 }
 
             } catch (NumberFormatException e) {
@@ -104,8 +87,8 @@ public class PartB {
         }
 
         long sum = 0;
-        for (int i = 0; i < memory.length; i++) {
-            sum += memory[i];
+        for (int i = 0; i < memory.size(); i++) {
+            sum += memory.get(i);
         }
 
 
