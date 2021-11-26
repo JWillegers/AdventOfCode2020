@@ -46,7 +46,7 @@ public class PartB {
             }
         }
         boolean run = true;
-        long nextBusTime = 100000000000000;
+        long nextBusTime = timestamp;
         while (run) {
             run = false;
             nextBusTime++;
