@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class PartA {
+public class PartB {
     private int nOfLines = 376; //376
     private BufferedReader reader;
     private String[] array = new String[nOfLines];
 
     public static void main(String[] args) {
-        PartA part = new PartA();
+        PartB part = new PartB();
         part.setup();
         part.solution();
     }
@@ -81,33 +81,32 @@ public class PartA {
     }
 
     public String calculate(String line) {
-        boolean twoNumbers = false;
         String[] split = line.split(" ");
-        long number = -1;
-        if (split.length == 3) {
-            twoNumbers = true;
-        }
-        if (split[1].equals("+")) {
-            number = Long.parseLong(split[0]) + Long.parseLong(split[2]);
-        } else {
-            number = Long.parseLong(split[0]) * Long.parseLong(split[2]);
-        }
-        int spaceCounter = 0;
-        if (number != -1) {
-            for (int j = 0; j < line.length(); j++) {
-                if (line.charAt(j) == ' ') {
-                    spaceCounter++;
-                    if (spaceCounter == 3) {
-                        return String.valueOf(number) + line.substring(j);
-                    } else if (twoNumbers) {
-                        return String.valueOf(number);
-                    }
+        boolean calculationDone = false;
+        boolean skip = false;
+        String returnLine = "";
+        for (int i = 0; i < split.length; i += 2) {
+            if (skip) {
+                if (split.length != 3 && i + 1 != split.length) {
+                    returnLine += " " + split[i + 1] + " ";
                 }
+                skip = false;
+            } else if (i + 1 == split.length) {
+                returnLine += split[i];
+            } else if (calculationDone) {
+                returnLine += split[i] + " " + split[i + 1] + " ";
+            } else if (split[i + 1].equals("+")) {
+                returnLine += (Long.parseLong(split[i]) + Long.parseLong(split[i + 2]));
+                skip = true;
+                calculationDone = true;
+            } else if (!line.contains("+")) {
+                returnLine += (Long.parseLong(split[i]) * Long.parseLong(split[i + 2]));
+                skip = true;
+                calculationDone = true;
+            } else {
+                returnLine += split[i] + " " + split[i + 1] + " ";
             }
-        } else {
-            System.out.println("HELP2");
-            System.exit(1);
         }
-        return null;
+        return returnLine;
     }
 }
