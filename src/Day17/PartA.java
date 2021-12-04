@@ -13,6 +13,7 @@ public class PartA {
     private List<Coordinate> copy;
     private int maxXY;
     private int maxZ;
+    private int minXY;
 
 
 
@@ -34,7 +35,8 @@ public class PartA {
     public void setup() {
         try {
             maxZ = 0;
-            maxXY = nOfLines;
+            maxXY = nOfLines / 2 - 1 ;
+            minXY = - nOfLines / 2;
             this.coordinates = new ArrayList<>();
             reader = new BufferedReader(new FileReader("src/Day17/input.txt"));
             for (int i = 0; i < nOfLines; i++) {
@@ -55,17 +57,41 @@ public class PartA {
 
     public void solution() {
         for (int i = 0; i < 6; i++) {
-            if (maxZ == maxXY) {
-                System.out.println("TODO: implement this");
-            } else {
-                maxZ++;
-                for (int j = -4; j < maxXY - 4; j++) {
-                    for (int k = -4; k < maxXY - 4; k++) {
-                        Coordinate coordinate1 = new Coordinate(j, k, maxZ, false);
-                        Coordinate coordinate2 = new Coordinate(j, k, -maxZ, false);
-                        this.coordinates.add(coordinate1);
-                        this.coordinates.add(coordinate2);
+            //adding a layer around the existing cubes
+
+            //x
+            for (int y = minXY; y <= maxXY; y++) {
+                for (int z = 0; z <= maxZ; z++) {
+                    this.coordinates.add(new Coordinate(minXY - 1, y, z, false));
+                    this.coordinates.add(new Coordinate(maxXY + 1, y, z, false));
+                    if (z != 0) {
+                        this.coordinates.add(new Coordinate(minXY - 1, y, -z, false));
+                        this.coordinates.add(new Coordinate(maxXY + 1, y, -z, false));
                     }
+                }
+            }
+
+            //y
+            for (int x = minXY - 1; x <= maxXY + 1; x++) {
+                for (int z = 0; z <= maxZ; z++) {
+                    this.coordinates.add(new Coordinate(x, minXY - 1, z, false));
+                    this.coordinates.add(new Coordinate(x, maxXY + 1, z, false));
+                    if (z != 0) {
+                        this.coordinates.add(new Coordinate(x, minXY - 1, -z, false));
+                        this.coordinates.add(new Coordinate(x, maxXY + 1, -z, false));
+                    }
+                }
+            }
+
+            maxXY++;
+            minXY--;
+            maxZ++;
+
+            //z
+            for (int x = minXY; x <= maxXY; x++) {
+                for (int y = minXY; y <- maxXY; y++) {
+                   this.coordinates.add(new Coordinate(x, y, maxZ, false));
+                   this.coordinates.add(new Coordinate(x, y, -maxZ, false));
                 }
             }
 
@@ -77,6 +103,8 @@ public class PartA {
                 } else if (!copy.coordinates.get(cord).active && neighbours == 3) {
                     this.coordinates.get(cord).active = true;
                 }
+                System.out.println("Copy status: " + copy.coordinates.get(cord).active +
+                        "\nActual status: " + this.coordinates.get(cord).active);
             }
             if (i != 5) {
                 System.out.println("\n---------- NEW ITERATION ---------- \n");
@@ -101,15 +129,16 @@ public class PartA {
         for (int ix = cord.x - 1; ix < cord.x + 2; ix++) {
             for (int iy = cord.y - 1; iy < cord.y + 2; iy++) {
                 for (int iz = cord.z - 1; iz < cord.z + 2; iz++) {
-                    for (int i = 0; i < part.coordinates.size(); i++) {
-                        Coordinate cordA = part.coordinates.get(i);
-                        if (!(ix == cord.x && iy == cord.y && iz == cord.z)) {
-                            if (cordA.x == ix && cordA.y == iy && cordA.z == iz && cordA.active) {
-                                System.out.println("x=" + ix + " y=" + iy + " z=" + iz);
-                                neighbours++;
-                                break;
+                    if (!(ix == cord.x && iy == cord.y && iz == cord.z)) {
+                        for (int i = 0; i < part.coordinates.size(); i++) {
+                            Coordinate cordA = part.coordinates.get(i);
+
+                                if (cordA.x == ix && cordA.y == iy && cordA.z == iz && cordA.active) {
+                                    System.out.println("x=" + ix + " y=" + iy + " z=" + iz);
+                                    neighbours++;
+                                    break;
+                                }
                             }
-                        }
                     }
                 }
             }
