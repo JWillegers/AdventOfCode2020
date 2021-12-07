@@ -1,7 +1,9 @@
 package Day15;
 
-import java.util.ArrayList;
-import java.util.List;
+import Day17.PartA;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
 
@@ -11,37 +13,23 @@ public class Solution {
     }
 
     public void solution() {
-        int secondLastNumber;
         int lastNumber = 9;
-        List<List<Integer>> listOfLists = new ArrayList<>();
-        List<Integer> list = new ArrayList<>();
-        list.add(0, -1);
-        list.add(1,8);
-        list.add(2,13);
-        list.add(3,1);
-        list.add(4,0);
-        list.add(5,18);
-        listOfLists.add(0, list);
+        Map<Integer, Integer> lastEntry = new HashMap<>(); //number, last turn spoken
+        lastEntry.put(8, 1);
+        lastEntry.put(13, 2);
+        lastEntry.put(1, 3);
+        lastEntry.put(0, 4);
+        lastEntry.put(18, 5);
         for (int i = 7; i <= 30000000; i++) {
-            secondLastNumber = lastNumber;
-            for (int j = listOfLists.size() - 1; j >= 0; j--) {
-                if (listOfLists.get(j).contains(lastNumber)) {
-                    lastNumber = (i - 1) - (j * 1000000 + listOfLists.get(j).lastIndexOf(lastNumber));
-                    break;
-                } else if (j == 0) {
-                    lastNumber = 0;
-                }
+            if (lastEntry.containsKey(lastNumber)) {
+                int lastTime = lastEntry.get(lastNumber);
+                lastEntry.put(lastNumber, i - 1);
+                lastNumber = i - 1 - lastTime;
+            } else {
+                lastEntry.put(lastNumber, i - 1);
+                lastNumber = 0;
             }
 
-            List<Integer> myList = listOfLists.get(listOfLists.size() - 1);
-            if (myList.size() == 1000000) {
-                List<Integer> newList = new ArrayList<>();
-                newList.add(0, secondLastNumber);
-                listOfLists.add(listOfLists.size(), newList);
-            } else {
-                myList.add((i - 1) % 1000000, secondLastNumber);
-                listOfLists.set(listOfLists.size() - 1, myList);
-            }
 
             if (i % 100000 == 0) {
                 System.out.println(((double) i / (double) 1000000) + " million");
