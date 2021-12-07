@@ -30,9 +30,8 @@ public class PartB {
     }
 
     public void solution() {
-        List<Long> memory = new ArrayList<>();
+        Map<Long, Long> memory = new HashMap<>(); //slot, number
         String mask = null;
-
         for (int i = 0; i < nOfLines; i++) {
             try {
                 String[] split = array[i].split(" = ");
@@ -40,11 +39,11 @@ public class PartB {
                     mask = split[1];
                 } else {
                     long value = Long.parseLong(split[1]);
-                    int memorySlot = Integer.parseInt(array[i].split("]")[0].substring(4));
+                    long memorySlot = Integer.parseInt(array[i].split("]")[0].substring(4));
                     for (int j = 0; j < 36; j++) {
                         char maskChar = mask.charAt(35 - j);
                         if (maskChar != 'X') {
-                            int shifted = memorySlot >> j;
+                            long shifted = memorySlot >> j;
                             if (shifted % 2 != Integer.parseInt(String.valueOf(maskChar))) { //bits are different
                                 if (shifted % 2 == 0) { //the 0 needs to become a 1
                                     memorySlot += Math.pow(2, j);
@@ -73,7 +72,7 @@ public class PartB {
                     }
 
                     for (int j = 0; j < newList.size(); j++) {
-                        memory.add(memorySlot, value);
+                        memory.put(memorySlot, value);
                     }
 
 
@@ -87,8 +86,8 @@ public class PartB {
         }
 
         long sum = 0;
-        for (int i = 0; i < memory.size(); i++) {
-            sum += memory.get(i);
+        for (long number : memory.keySet()) {
+            sum += memory.get(number);
         }
 
 
