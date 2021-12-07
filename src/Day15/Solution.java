@@ -30,13 +30,12 @@ public class Solution {
                 lastNumber = 0;
             }
 
-
-            if (i % 100000 == 0) {
-                System.out.println(((double) i / (double) 1000000) + " million");
+            if (i == 2020) {
+                System.out.println("2020: " + lastNumber + "\nbe patient, may take a few seconds to calculate");
             }
         }
 
-        System.out.println(lastNumber);
+        System.out.println("30000000: " + lastNumber);
     }
 }
 
